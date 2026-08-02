@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RYOUKE X ROBLOX - SCRIPT MINIFIER PRO</title>
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #0ea5e9;
+            --bg-dark: #020617;
+            --bg-panel: rgba(15, 23, 42, 0.75);
+            --text-main: #f1f5f9;
+            --text-glow: #38bdf8;
+            --success: #10b981;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 10% 10%, rgba(139, 92, 246, 0.2) 0px, transparent 50%),
+                radial-gradient(at 90% 90%, rgba(14, 165, 233, 0.2) 0px, transparent 50%);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background: var(--bg-panel);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 600px;
+            padding: 35px;
+            box-shadow: 0 0 50px rgba(139, 92, 246, 0.15);
+            backdrop-filter: blur(12px);
+            position: relative;
+        }
+        .header { text-align: center; margin-bottom: 25px; }
+        .credit-name {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 6px;
+            text-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
+        }
+        .main-title {
+            font-size: 2.2rem;
+            background: linear-gradient(to right, #fff, #a78bfa, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        .section-label {
+            font-size: 0.85rem;
+            color: var(--secondary);
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        textarea {
+            width: 100%;
+            height: 220px;
+            background: rgba(0, 0, 0, 0.4);
+            color: var(--text-glow);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+            margin-bottom: 20px;
+        }
+        textarea:focus { outline: none; border-color: var(--secondary); box-shadow: 0 0 12px rgba(14, 165, 233, 0.3); }
+
+        .main-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #7c3aed, #0284c7);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+        .main-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5); }
+
+        /* Modal Popup */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(2, 6, 23, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        
+        .modal-box {
+            background: #0f172a;
+            border: 1px solid var(--success);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 380px;
+            width: 90%;
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-box { transform: scale(1); }
+        
+        .modal-icon {
+            width: 60px; height: 60px;
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 15px auto;
+        }
+        .modal-title { font-size: 1.5rem; color: #fff; margin-bottom: 8px; font-weight: bold; }
+        .modal-desc { color: #94a3b8; font-size: 0.95rem; margin-bottom: 20px; }
+        
+        .modal-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .footer { text-align: center; margin-top: 25px; font-size: 0.85rem; color: rgba(241, 245, 249, 0.5); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="credit-name">Ryouke X Roblox</div>
+        <h1 class="main-title">Script Minifier Pro</h1>
+    </div>
+
+    <div class="section-label" id="label-text">-- SOURCE SCRIPT INPUT --</div>
+    <textarea id="scriptInput" placeholder="-- วาง Lua Script ที่ต้องการย่อหรือปกปิดที่นี่ --"></textarea>
+
+    <button class="main-btn" id="actionBtn" onclick="handleAction()">เริ่มปกปิดสคริปต์แบบ RYOUKE</button>
+
+    <div class="footer">
+        © 2026 Optimized by <b>Ryouke X Roblox</b>. Secure & Fast.
+    </div>
+</div>
+
+<div class="modal-overlay" id="successModal">
+    <div class="modal-box">
+        <div class="modal-icon">✓</div>
+        <div class="modal-title">สำเร็จ!</div>
+        <div class="modal-desc">ย่อสคริปต์และสร้างลิงก์สั้นเรียบร้อยแล้ว</div>
+        <button class="modal-btn" onclick="closeModal()">ตกลง</button>
+    </div>
+</div>
+
+<script>
+let state = "input";
+
+async function handleAction() {
+    const inputEl = document.getElementById("scriptInput");
+    const actionBtn = document.getElementById("actionBtn");
+    const labelText = document.getElementById("label-text");
+
+    if (state === "input") {
+        let code = inputEl.value.trim();
+        if (!code) {
+            alert("กรุณาวางสคริปต์ก่อนครับ!");
+            return;
+        }
+
+        actionBtn.innerText = "กำลังสร้างลิงก์สั้นแบบ RYOUKE...";
+        actionBtn.style.opacity = "0.7";
+
+        // ลบคอมเมนต์และย่อช่องว่าง
+        code = code.replace(/--\[\[[\s\S]*?\]\]/g, '');
+        code = code.replace(/--.*$/gm, '');
+        code = code.replace(/\s+/g, ' ').trim();
+
+        let rawUrl = "";
+
+        // ลองฝากไฟล์ผ่าน Bytebin API (เปิดรับ CORS ทุกเบราว์เซอร์)
+        try {
+            let res = await fetch('https://bytebin.lucko.me/post', {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+                body: code
+            });
+            if (res.ok) {
+                let data = await res.json();
+                if (data.key) {
+                    rawUrl = `https://bytebin.lucko.me/raw/${data.key}`;
+                }
+            }
+        } catch (e) {}
+
+        // ถ้าแบบแรกไม่ได้ ให้ใช้ dpaste ผ่าน CORS Proxy
+        if (!rawUrl) {
+            try {
+                let formData = new URLSearchParams();
+                formData.append('content', code);
+                formData.append('format', 'url');
+
+                let res = await fetch('https://corsproxy.io/?https://dpaste.org/api/', {
+                    method: 'POST',
+                    body: formData
+                });
+                if (res.ok) {
+                    let pasteUrl = await res.text();
+                    rawUrl = pasteUrl.trim() + '/raw';
+                }
+            } catch (e) {}
+        }
+
+        // กำหนดผลลัพธ์ใส่ในกล่องข้อความ
+        if (rawUrl) {
+            inputEl.value = `loadstring(game:HttpGet("${rawUrl}"))()`;
+        } else {
+            alert("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ย่อลิงก์ได้ กรุณาลองใหม่อีกครั้งครับ!");
+            actionBtn.innerText = "เริ่มปกปิดสคริปต์แบบ RYOUKE";
+            actionBtn.style.opacity = "1";
+            return;
+        }
+
+        state = "done";
+        actionBtn.innerText = "คัดลอกสคริปต์";
+        actionBtn.style.background = "linear-gradient(135deg, #059669, #10b981)";
+        actionBtn.style.opacity = "1";
+        labelText.innerText = "-- OBFUSCATED SCRIPT (READY TO COPY) --";
+
+        document.getElementById("successModal").classList.add("active");
+
+    } else if (state === "done") {
+        inputEl.select();
+        navigator.clipboard.writeText(inputEl.value);
+        
+        actionBtn.innerText = "คัดลอกสคริปต์สำเร็จแล้ว! ✓";
+        setTimeout(() => {
+            actionBtn.innerText = "คัดลอกสคริปต์";
+        }, 2000);
+    }
+}
+
+function closeModal() {
+    document.getElementById("successModal").classList.remove("active");
+}
+</script>
+
+</body>
+</html>
