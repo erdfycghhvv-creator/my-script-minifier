@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RYOUKE X ROBLOX - SCRIPT MINIFIER PRO</title>
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #0ea5e9;
+            --bg-dark: #020617;
+            --bg-panel: rgba(15, 23, 42, 0.7);
+            --text-main: #f1f5f9;
+            --text-glow: #38bdf8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 10% 10%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+                radial-gradient(at 90% 90%, rgba(14, 165, 233, 0.15) 0px, transparent 50%);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background: var(--bg-panel);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 1200px;
+            padding: 40px;
+            box-shadow: 0 0 50px rgba(139, 92, 246, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--primary));
+            z-index: -1;
+            border-radius: 26px;
+            filter: blur(10px);
+            opacity: 0.3;
+        }
+        .header { text-align: center; margin-bottom: 30px; }
+        .credit-name {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+            text-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
+        }
+        .main-title {
+            font-size: 3rem;
+            background: linear-gradient(to right, var(--text-main), #a78bfa, var(--text-main));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+        .textarea-wrapper { position: relative; margin-bottom: 25px; }
+        textarea {
+            width: 100%;
+            height: 500px;
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--text-glow);
+            border: 2px solid rgba(56, 189, 248, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 1rem;
+            line-height: 1.5;
+            box-sizing: border-box;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.2);
+        }
+        button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(45deg, #7c3aed, #0284c7);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.6);
+            transform: translateY(-2px);
+        }
+        .footer { text-align: center; margin-top: 30px; font-size: 0.9rem; color: rgba(241, 245, 249, 0.5); }
+        .footer-credit { color: var(--secondary); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="credit-name">Ryouke X Roblox</div>
+        <h1 class="main-title">Script Minifier Pro</h1>
+    </div>
+
+    <div class="textarea-wrapper">
+        <textarea id="input" placeholder="-- วาง Lua Script ที่ต้องการปกปิดที่นี่ --"></textarea>
+    </div>
+
+    <button onclick="minify()">เริ่มปกปิดสคริปต์แบบ Ryouke</button>
+
+    <div class="footer">
+        © 2026 Optimized by <span class="footer-credit">Ryouke X Roblox</span>. Secure & Fast.
+    </div>
+</div>
+
+<script>
+function minify() {
+    let text = document.getElementById("input").value;
+    if (!text.trim()) {
+        alert("กรุณาวางสคริปต์ก่อนครับ!");
+        return;
+    }
+    text = text.replace(/--\[\[[\s\S]*?\]\]/g, '');
+    text = text.replace(/--.*$/gm, '');
+    text = text.replace(/\s+/g, ' ').trim();
+    document.getElementById("input").value = text;
+    
+    const btn = document.querySelector('button');
+    const originalText = btn.innerText;
+    btn.innerText = "สำเร็จแล้ว!";
+    btn.style.background = "linear-gradient(45deg, #059669, #10b981)";
+    setTimeout(() => {
+        btn.innerText = originalText;
+        btn.style.background = "";
+    }, 2000);
+}
+</script>
+
+</body>
+</html>
