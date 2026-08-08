@@ -24,24 +24,24 @@
             overflow-x: hidden;
         }
 
-        /* ===== POPUP คำถามกวนๆ 4 ตัวเลือก ไม่ซ้ำกัน ===== */
-        .gatekeeper-overlay {
+        /* ===== GATEKEEPER MODAL (บังคับโชว์ 4 ตัวเลือกทันที) ===== */
+        #gatekeeperModal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(5, 8, 15, 0.95);
+            background: rgba(5, 8, 15, 0.98);
             backdrop-filter: blur(15px);
-            z-index: 9999;
-            display: flex;
+            z-index: 999999 !important;
+            display: flex !important;
             justify-content: center;
             align-items: center;
             padding: 20px;
         }
 
         .gatekeeper-card {
-            background: rgba(16, 22, 36, 0.95);
+            background: rgba(16, 22, 36, 0.98);
             border: 2px solid #00d2ff;
             border-radius: 16px;
             padding: 25px;
@@ -49,11 +49,11 @@
             max-width: 450px;
             box-shadow: 0 0 40px rgba(0, 210, 255, 0.4);
             text-align: center;
-            animation: fadeIn 0.4s ease-in-out;
+            animation: fadeIn 0.3s ease-in-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
+            from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
         }
 
@@ -82,8 +82,8 @@
             border: 1px solid rgba(0, 210, 255, 0.4);
             border-radius: 8px;
             color: #fff;
-            padding: 12px 8px;
-            font-size: 13px;
+            padding: 14px 10px;
+            font-size: 14px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s;
@@ -96,8 +96,9 @@
             box-shadow: 0 0 12px rgba(0, 210, 255, 0.8);
         }
 
-        /* ===== MAIN CONTAINER ===== */
+        /* ===== MAIN CONTAINER (ซ่อนไว้ก่อน) ===== */
         .container {
+            display: none;
             background: rgba(16, 22, 36, 0.85);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(0, 150, 255, 0.2);
@@ -261,23 +262,23 @@
 </head>
 <body>
 
-<!-- POPUP คำถามกวนๆ ดักก่อนเข้าเว็บ -->
-<div class="gatekeeper-overlay" id="gatekeeperModal">
+<!-- ด่านตอบคำถาม 4 ตัวเลือก -->
+<div id="gatekeeperModal">
     <div class="gatekeeper-card">
         <div class="subtitle">RY3 X RYOSUKE SECURITY</div>
         <h2 style="font-size: 18px; margin-top: 5px;">🤪 ตอบคำถามกวนๆ ก่อนผ่านเข้าเว็บ</h2>
-        <p style="font-size: 12px; color: #aaa; margin-top: 5px;">มี 4 ตัวเลือก สุ่มคำถามไม่ซ้ำกัน!</p>
+        <p style="font-size: 12px; color: #aaa; margin-top: 5px;">เลือกคำตอบที่ถูกต้องจาก 4 ตัวเลือกนี้!</p>
 
-        <div class="question-box" id="questionText">กำลังสุ่มคำถาม...</div>
+        <div class="question-box" id="questionText">กำลังโหลดคำถาม...</div>
 
         <div class="options-grid" id="optionsContainer">
-            <!-- ตัวเลือก 4 ข้อจะถูกสร้างจาก JavaScript -->
+            <!-- สร้างปุ่ม 4 ตัวเลือกผ่าน JS -->
         </div>
     </div>
 </div>
 
 <!-- หน้าเว็บหลัก -->
-<div class="container">
+<div class="container" id="mainContent">
     <div class="subtitle">RY3 SHOP X RYOSUKE SHOP</div>
     <div class="title">SCRIPT PROTECTOR PRO</div>
 
@@ -325,17 +326,17 @@
         {
             q: "ปลาอะไร ไอคิวยาวที่สุด?",
             options: ["ปลาวาฬ", "ปลากรอบ", "ปลาแปด", "ปลาช่อน"],
-            ans: 2 // ปลาแปด (8 ยาว)
+            ans: 2
         },
         {
             q: "แมวอะไร อยู่ในน้ำ?",
             options: ["แมวน้ำ", "แมวซักผ้า", "แมวเปียก", "แมวไม่อาบน้ำ"],
-            ans: 2 // แมวเปียก
+            ans: 2
         },
         {
             q: "อะไรเอ่ย เดินได้ ย้อนกลับได้ แต่วิ่งไม่ได้?",
             options: ["เต่า", "เวลา", "กุ้ง", "หอยทาก"],
-            ans: 2 // กุ้ง
+            ans: 2
         },
         {
             q: "ถ้า 1+1 = 2 แล้ว 2+2 เท่ากับเท่าไหร่?",
@@ -348,35 +349,14 @@
             ans: 0
         },
         {
-            q: "นกอะไร หูสั้น ตาโต ชอบนอนตอนกลางวัน?",
-            options: ["นกแก้ว", "นกเค้าแมว", "นกง่วงนอน", "นกพิราบ"],
-            ans: 1
-        },
-        {
-            q: "ห้องอะไร ยิ่งกว้างยิ่งมองไม่เห็น?",
-            options: ["ห้องมืด", "ห้องน้ำ", "ห้องเรียน", "ห้องนอน"],
-            ans: 0
-        },
-        {
-            q: "ต้นอะไร ขึ้นชื่อว่าขี้เกียจที่สุด?",
+            q: "ต้นอะไร ขี้เกียจที่สุด?",
             options: ["ต้นมะพร้าว", "ต้นไม้", "ต้นขี้เกียจ", "ต้นผักกาด"],
-            ans: 1 // ต้นไม้ (ต้น-ไม่ ทำอะไรเลย)
-        },
-        {
-            q: "ขนมอะไร ซื้อมาแล้วกินไม่ได้เลย?",
-            options: ["ขนมเปี๊ยะ", "ขนมปังไหม้", "ขนมพลาสติก", "ขนมครก (ร้อนเกิน)"],
-            ans: 2
-        },
-        {
-            q: "งูอะไร สั้นที่สุดในโลก?",
-            options: ["งูดิน", "งูเขียว", "งูเขี้ยวสั้น", "งูสอย"],
-            ans: 3 // งูสอย (งูสั้น)
+            ans: 1
         }
     ];
 
     var currentQ = null;
 
-    // ฟังก์ชันสุ่มคำถามแบบไม่ซ้ำกันแต่ละครั้ง
     function loadTrollQuestion() {
         var randomIndex = Math.floor(Math.random() * trollQuestions.length);
         currentQ = trollQuestions[randomIndex];
@@ -402,8 +382,9 @@
         if (selectedIndex === currentQ.ans) {
             alert("เก่งมาก! ตอบถูก เข้าใช้งานเว็บได้เลย 🚀");
             document.getElementById('gatekeeperModal').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
         } else {
-            alert("ผิดครับกวนตีน! สุ่มคำถามใหม่ให้เลย 🤪");
+            alert("ผิดครับกวนตีน! สุ่มคำถามใหม่นะ 🤪");
             loadTrollQuestion();
         }
     }
@@ -622,4 +603,19 @@ end
 
         var protectedOneLiner = credit + "\n";
         if (pass.trim() !== '') {
-            protec
+            protectedOneLiner += 'if _G.Pass ~= "' + pass + '" then warn("[RY3] Wrong Password!") return end\n';
+        }
+        
+        var secBytes = [];
+        for (var i = 0; i < fullSecurityScript.length; i++) {
+            secBytes.push(fullSecurityScript.charCodeAt(i));
+        }
+        protectedOneLiner += 'local b={' + secBytes.join(',') + '};local s="";for i=1,#b do s=s..string.char(b[i]) end;loadstring(s)()';
+
+        document.getElementById('outputScript').value = protectedOneLiner;
+        document.getElementById('resultBox').style.display = 'block';
+        alert('ปกปิดสคริปต์เรียบร้อย!');
+    }
+
+    function resetAll() {
+        document.getElementById('sourceScri
