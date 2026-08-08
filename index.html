@@ -24,81 +24,8 @@
             overflow-x: hidden;
         }
 
-        /* ===== GATEKEEPER MODAL (บังคับโชว์ 4 ตัวเลือกทันที) ===== */
-        #gatekeeperModal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(5, 8, 15, 0.98);
-            backdrop-filter: blur(15px);
-            z-index: 999999 !important;
-            display: flex !important;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .gatekeeper-card {
-            background: rgba(16, 22, 36, 0.98);
-            border: 2px solid #00d2ff;
-            border-radius: 16px;
-            padding: 25px;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 0 40px rgba(0, 210, 255, 0.4);
-            text-align: center;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .question-box {
-            background: linear-gradient(135deg, #1e0036, #001f3f);
-            border: 1px solid #00d2ff;
-            border-radius: 10px;
-            padding: 18px;
-            font-size: 16px;
-            font-weight: bold;
-            color: #00d2ff;
-            margin: 15px 0;
-            text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
-            line-height: 1.4;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .btn-option {
-            background: rgba(20, 30, 55, 0.9);
-            border: 1px solid rgba(0, 210, 255, 0.4);
-            border-radius: 8px;
-            color: #fff;
-            padding: 14px 10px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-
-        .btn-option:hover {
-            background: #00d2ff;
-            color: #000;
-            box-shadow: 0 0 12px rgba(0, 210, 255, 0.8);
-        }
-
-        /* ===== MAIN CONTAINER (ซ่อนไว้ก่อน) ===== */
+        /* ===== MAIN CONTAINER ===== */
         .container {
-            display: none;
             background: rgba(16, 22, 36, 0.85);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(0, 150, 255, 0.2);
@@ -262,21 +189,6 @@
 </head>
 <body>
 
-<!-- ด่านตอบคำถาม 4 ตัวเลือก -->
-<div id="gatekeeperModal">
-    <div class="gatekeeper-card">
-        <div class="subtitle">RY3 X RYOSUKE SECURITY</div>
-        <h2 style="font-size: 18px; margin-top: 5px;">🤪 ตอบคำถามกวนๆ ก่อนผ่านเข้าเว็บ</h2>
-        <p style="font-size: 12px; color: #aaa; margin-top: 5px;">เลือกคำตอบที่ถูกต้องจาก 4 ตัวเลือกนี้!</p>
-
-        <div class="question-box" id="questionText">กำลังโหลดคำถาม...</div>
-
-        <div class="options-grid" id="optionsContainer">
-            <!-- สร้างปุ่ม 4 ตัวเลือกผ่าน JS -->
-        </div>
-    </div>
-</div>
-
 <!-- หน้าเว็บหลัก -->
 <div class="container" id="mainContent">
     <div class="subtitle">RY3 SHOP X RYOSUKE SHOP</div>
@@ -321,74 +233,6 @@
 </div>
 
 <script>
-    // คลังคำถามกวนๆ 4 ตัวเลือก
-    var trollQuestions = [
-        {
-            q: "ปลาอะไร ไอคิวยาวที่สุด?",
-            options: ["ปลาวาฬ", "ปลากรอบ", "ปลาแปด", "ปลาช่อน"],
-            ans: 2
-        },
-        {
-            q: "แมวอะไร อยู่ในน้ำ?",
-            options: ["แมวน้ำ", "แมวซักผ้า", "แมวเปียก", "แมวไม่อาบน้ำ"],
-            ans: 2
-        },
-        {
-            q: "อะไรเอ่ย เดินได้ ย้อนกลับได้ แต่วิ่งไม่ได้?",
-            options: ["เต่า", "เวลา", "กุ้ง", "หอยทาก"],
-            ans: 2
-        },
-        {
-            q: "ถ้า 1+1 = 2 แล้ว 2+2 เท่ากับเท่าไหร่?",
-            options: ["4", "คิดเอาเอง", "สี่มั้ง", "0"],
-            ans: 0
-        },
-        {
-            q: "เจ้าของเว็บนี้ชื่ออะไร?",
-            options: ["Ryosuke", "พี่โต", "ใครก็ได้", "บอทกาก"],
-            ans: 0
-        },
-        {
-            q: "ต้นอะไร ขี้เกียจที่สุด?",
-            options: ["ต้นมะพร้าว", "ต้นไม้", "ต้นขี้เกียจ", "ต้นผักกาด"],
-            ans: 1
-        }
-    ];
-
-    var currentQ = null;
-
-    function loadTrollQuestion() {
-        var randomIndex = Math.floor(Math.random() * trollQuestions.length);
-        currentQ = trollQuestions[randomIndex];
-
-        document.getElementById('questionText').innerText = currentQ.q;
-        
-        var container = document.getElementById('optionsContainer');
-        container.innerHTML = "";
-
-        for (var i = 0; i < currentQ.options.length; i++) {
-            var btn = document.createElement('button');
-            btn.className = 'btn-option';
-            btn.innerText = (i + 1) + ". " + currentQ.options[i];
-            btn.setAttribute('data-index', i);
-            btn.onclick = function() {
-                checkAnswer(parseInt(this.getAttribute('data-index')));
-            };
-            container.appendChild(btn);
-        }
-    }
-
-    function checkAnswer(selectedIndex) {
-        if (selectedIndex === currentQ.ans) {
-            alert("เก่งมาก! ตอบถูก เข้าใช้งานเว็บได้เลย 🚀");
-            document.getElementById('gatekeeperModal').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'block';
-        } else {
-            alert("ผิดครับกวนตีน! สุ่มคำถามใหม่นะ 🤪");
-            loadTrollQuestion();
-        }
-    }
-
     function protectScript() {
         var rawScript = document.getElementById('sourceScript').value;
         var pass = document.getElementById('scriptPassword').value;
@@ -618,4 +462,19 @@ end
     }
 
     function resetAll() {
-        document.getElementById('sourceScri
+        document.getElementById('sourceScript').value = '';
+        document.getElementById('scriptPassword').value = '';
+        document.getElementById('outputScript').value = '';
+        document.getElementById('resultBox').style.display = 'none';
+    }
+
+    function copyOutput() {
+        var output = document.getElementById('outputScript');
+        output.select();
+        document.execCommand('copy');
+        alert('คัดลอก Loadstring เรียบร้อยแล้ว!');
+    }
+</script>
+
+</body>
+</html>
