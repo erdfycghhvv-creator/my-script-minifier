@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RY3 shop x RYOSUKE shop - SCRIPT PROTECTOR PRO</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), 
+                        url('https://images.wallpapersden.com/image/download/lightning-letter-r_bWlpZmqUmZqaraWkpJRmZ21lrWlnZWU.jpg') center/cover no-repeat fixed #0a0e17;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* ===== POPUP คำถามกวนๆ ===== */
+        .gatekeeper-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 8, 15, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .gatekeeper-card {
+            background: rgba(16, 22, 36, 0.95);
+            border: 2px solid #00d2ff;
+            border-radius: 16px;
+            padding: 25px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 0 40px rgba(0, 210, 255, 0.4);
+            text-align: center;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .question-box {
+            background: linear-gradient(135deg, #1e0036, #001f3f);
+            border: 1px solid #00d2ff;
+            border-radius: 10px;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #00d2ff;
+            margin: 15px 0;
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+            line-height: 1.4;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .btn-option {
+            background: rgba(20, 30, 55, 0.9);
+            border: 1px solid rgba(0, 210, 255, 0.4);
+            border-radius: 8px;
+            color: #fff;
+            padding: 12px 8px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-option:hover {
+            background: #00d2ff;
+            color: #000;
+            box-shadow: 0 0 12px rgba(0, 210, 255, 0.8);
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            background: rgba(16, 22, 36, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 150, 255, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: 0 0 30px rgba(0, 120, 255, 0.25);
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #00d2ff;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #d1b3ff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(180, 100, 255, 0.5);
+        }
+
+        .section-label {
+            font-size: 11px;
+            color: #00d2ff;
+            letter-spacing: 1px;
+            text-align: left;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        textarea, input[type="text"], input[type="password"] {
+            width: 100%;
+            background: rgba(10, 14, 23, 0.9);
+            border: 1px solid rgba(0, 150, 255, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            padding: 10px 12px;
+            font-size: 13px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        textarea {
+            height: 120px;
+            resize: none;
+            margin-bottom: 15px;
+        }
+
+        textarea:focus, input:focus {
+            border-color: #00d2ff;
+            box-shadow: 0 0 8px rgba(0, 210, 255, 0.4);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .input-box {
+            flex: 1;
+            text-align: left;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .btn-protect {
+            flex: 2;
+            padding: 12px;
+            background: linear-gradient(90deg, #7b2cbf, #0077b6);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(123, 44, 191, 0.4);
+        }
+
+        .btn-reset {
+            flex: 1;
+            padding: 12px;
+            background: #e63946;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-protect:hover, .btn-reset:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .discord-card {
+            background: rgba(20, 25, 45, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .discord-info {
+            text-align: left;
+        }
+
+        .discord-info strong {
+            display: block;
+            font-size: 13px;
+            color: #fff;
+        }
+
+        .discord-info span {
+            font-size: 11px;
+            color: #8e9aaf;
+        }
+
+        .btn-join {
+            background: #5865F2;
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .btn-join:hover {
+            background: #4752C4;
+        }
+
+        .result-box {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 11px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+<!-- POPUP คำถามกวนๆ ดักก่อนเข้าเว็บ -->
+<div class="gatekeeper-overlay" id="gatekeeperModal">
+    <div class="gatekeeper-card">
+        <div class="subtitle">RY3 X RYOSUKE SECURITY</div>
+        <h2 style="font-size: 18px; margin-top: 5px;">🤪 ตอบคำถามกวนๆ ก่อนผ่านเข้าเว็บ</h2>
+        <p style="font-size: 12px; color: #aaa; margin-top: 5px;">ตอบถูกผ่านเลย ตอบผิดสุ่มคำถามใหม่!</p>
+
+        <div class="question-box" id="questionText">กำลังโหลดคำถาม...</div>
+
+        <div class="options-grid" id="optionsContainer">
+            <!-- ตัวเลือกจะถูกสร้างจาก JavaScript -->
+        </div>
+    </div>
+</div>
+
+<!-- หน้าเว็บหลัก -->
+<div class="container">
+    <div class="subtitle">RY3 SHOP X RYOSUKE SHOP</div>
+    <div class="title">SCRIPT PROTECTOR PRO</div>
+
+    <div class="section-label">-- SOURCE SCRIPT INPUT --</div>
+    <textarea id="sourceScript" placeholder="-- วาง Lua Script ที่ต้องการย่อหรือปกปิดที่นี่ --"></textarea>
+
+    <div class="input-group">
+        <div class="input-box">
+            <div class="section-label">PASSWORD (ตั้งรหัสผ่าน)</div>
+            <input type="password" id="scriptPassword" placeholder="เว้นว่างไว้ถ้าไม่ใช้">
+        </div>
+        <div class="input-box">
+            <div class="section-label">CREDIT / WATERMARK</div>
+            <input type="text" id="scriptCredit" value="-- RY3 shop x RYOSUKE shop">
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <button class="btn-protect" onclick="protectScript()">เริ่มปกปิดสคริปต์แบบ RY3 x RYOSUKE</button>
+        <button class="btn-reset" onclick="resetAll()">รีเซ็ต</button>
+    </div>
+
+    <div class="result-box" id="resultBox">
+        <div class="section-label" style="margin-top:10px;">-- PROTECTED LOADSTRING RESULT --</div>
+        <textarea id="outputScript" readonly style="height: 90px;"></textarea>
+        <button class="btn-protect" style="background: #2ec4b6; width: 100%; margin-top: 5px;" onclick="copyOutput()">คัดลอก Loadstring</button>
+    </div>
+
+    <div class="discord-card">
+        <div class="discord-info">
+            <strong>RY3 x RYOSUKE COMMUNITY</strong>
+            <span>เข้าร่วมดิสคอร์ดเพื่อรับการสนับสนุน</span>
+        </div>
+        <a href="https://discord.gg/yourlink" target="_blank" class="btn-join">JOIN SERVER</a>
+    </div>
+
+    <div class="footer">
+        © 2026 Powered by <strong>RY3 shop x RYOSUKE shop</strong>. Secure & Fast.
+    </div>
+</div>
+
+<script>
+    // คลังคำถามกวนๆ และคำตอบ
+    var trollQuestions = [
+        {
+            q: "ปลาอะไร ไอคิวยาวที่สุด?",
+            options: ["ปลาวาฬ", "ปลากรอบ", "ปลาแปด", "ปลาช่อน"],
+            ans: 2 // ปลาแปด (8 ยาว)
+        },
+        {
+            q: "แมวอะไร อยู่ในน้ำ?",
+            options: ["แมวน้ำ", "แมวซักผ้า", "แมวเปียก", "แมวไม่อาบน้ำ"],
+            ans: 2 // แมวเปียก
+        },
+        {
+            q: "อะไรเอ่ย เดินได้ ย้อนกลับได้ แต่วิ่งไม่ได้?",
+            options: ["เต่า", "เวลา", "กุ้ง", "หอยทาก"],
+            ans: 2 // กุ้ง (เดินถอยหลัง)
+        },
+        {
+            q: "ถ้า 1+1 = 2 แล้ว 2+2 เท่ากับเท่าไหร่?",
+            options: ["4", "คิดเอาเอง", "สี่มั้ง", "0"],
+            ans: 0
+        },
+        {
+            q: "เจ้าของเว็บนี้ชื่ออะไร?",
+            options: ["Ryosuke", "พี่โต", "ใครก็ได้", "บอทกาก"],
+            ans: 0
+        }
+    ];
+
+    var currentQ = null;
+
+    function loadTrollQuestion() {
+        var randomIndex = Math.floor(Math.random() * trollQuestions.length);
+        currentQ = trollQuestions[randomIndex];
+
+        document.getElementById('questionText').innerText = currentQ.q;
+        
+        var container = document.getElementById('optionsContainer');
+        container.innerHTML = "";
+
+        for (var i = 0; i < currentQ.options.length; i++) {
+            var btn = document.createElement('button');
+            btn.className = 'btn-option';
+            btn.innerText = currentQ.options[i];
+            btn.setAttribute('data-index', i);
+            btn.onclick = function() {
+                checkAnswer(parseInt(this.getAttribute('data-index')));
+            };
+            container.appendChild(btn);
+        }
+    }
+
+    function checkAnswer(selectedIndex) {
+        if (selectedIndex === currentQ.ans) {
+            alert("เก่งมาก! ตอบถูก เข้าใช้งานเว็บได้เลย 🚀");
+            document.getElementById('gatekeeperModal').style.display = 'none';
+        } else {
+            alert("ผิดครับกวนตีน! ลองใหม่นะ 🤪");
+            loadTrollQuestion();
+        }
+    }
+
+    function protectScript() {
+        var rawScript = document.getElementById('sourceScript').value;
+        var pass = document.getElementById('scriptPassword').value;
+        var credit = document.getElementById('scriptCredit').value;
+
+        if (!rawScript.trim()) {
+            alert('กรุณาวางสคริปต์ Lua ก่อนครับ!');
+            return;
+        }
+
+        var bytes = [];
+        for (var i = 0; i < rawScript.length; i++) {
+            bytes.push(rawScript.charCodeAt(i));
+        }
+        var byteStr = bytes.join(',');
+
+        var fullSecurityScript = `
+-- ==========================================
+-- ${credit.replace('--', '').trim()}
+-- ==========================================
+
+local Players = game:GetService("Players")
+local HttpService = game:GetService("HttpService")
+local CoreGui = game:GetService("CoreGui")
+local TweenService = game:GetService("TweenService")
+local LocalPlayer = Players.LocalPlayer
+
+local Config = {
+    WebhookURL = "YOUR_WEBHOOK_URL_HERE",
+    CorrectKey = "RY3-SHOP-2026",
+    KeyURL = "https://discord.gg/yourlink",
+    Whitelist = {
+        Enabled = true,
+        UserIds = {
+            1411888296270893251,
+            LocalPlayer.UserId
+        }
+    },
+    Blacklist = { UserIds = {} },
+    Announcement = {
+        Title = "RY3 shop x RYOSUKE shop",
+        Text = "ยินดีต้อนรับ! ยืนยันตัวตนสำเร็จแล้ว",
+        Duration = 5
+    }
+}
+
+local function SendWebhook(status, reason)
+    if Config.WebhookURL == "YOUR_WEBHOOK_URL_HERE" or Config.WebhookURL == "" then return end
+    local request = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
+    if not request then return end
+    pcall(function()
+        request({
+            Url = Config.WebhookURL,
+            Method = "POST",
+            Headers = {["Content-Type"] = "application/json"},
+            Body = HttpService:JSONEncode({
+                embeds = {{
+                    title = "🛡️ Script Execution Log",
+                    color = status == "Success" and 65280 or 16711680,
+                    fields = {
+                        {name = "Player", value = LocalPlayer.Name .. " (" .. LocalPlayer.UserId .. ")", inline = true},
+                        {name = "Game ID", value = tostring(game.PlaceId), inline = true},
+                        {name = "Status", value = status, inline = true},
+                        {name = "Detail", value = reason or "Execution Successful", inline = false}
+                    },
+                    footer = {text = "RY3 shop x RYOSUKE shop Security"}
+                }}
+            })
+        })
+    end)
+end
+
+local function CheckAntiTamper()
+    local checkNames = {"Dex", "RemoteSpy", "SimpleSpy", "DarkDex"}
+    for _, gui in pairs(CoreGui:GetChildren()) do
+        for _, name in pairs(checkNames) do
+            if string.find(gui.Name, name) then
+                SendWebhook("Blocked", "Detected Exploit Tool: " .. name)
+                LocalPlayer:Kick("[RY3 Anti-Cheat] ตรวจพบโปรแกรมแกะสคริปต์ (" .. name .. ")")
+                return false
+            end
+        end
+    end
+    return true
+end
+
+local function CheckAccess()
+    for _, id in pairs(Config.Blacklist.UserIds) do
+        if LocalPlayer.UserId == id then
+            SendWebhook("Blocked", "Blacklisted user attempted execution.")
+            LocalPlayer:Kick("[RY3 System] บัญชีของคุณถูกระงับการใช้งาน (Blacklisted)")
+            return false
+        end
+    end
+    if Config.Whitelist.Enabled then
+        local isWhitelisted = false
+        for _, id in pairs(Config.Whitelist.UserIds) do
+            if LocalPlayer.UserId == id then isWhitelisted = true break end
+        end
+        if not isWhitelisted then
+            SendWebhook("Blocked", "Non-whitelisted user attempted execution.")
+            LocalPlayer:Kick("[RY3 System] บัญชีของคุณไม่มีสิทธิ์ใช้งาน (Not Whitelisted)")
+            return false
+        end
+    end
+    return true
+end
+
+local function RunMainScript()
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = Config.Announcement.Title,
+        Text = Config.Announcement.Text,
+        Duration = Config.Announcement.Duration
+    })
+    SendWebhook("Success", "Key Verified & Main Script Loaded")
+    
+    local b={${byteStr}}
+    local s=""
+    for i=1,#b do s=s..string.char(b[i]) end
+    loadstring(s)()
+end
+
+local function CreateKeyUI()
+    local ScreenGui = Instance.new("ScreenGui")
+    local MainFrame = Instance.new("Frame")
+    local Title = Instance.new("TextLabel")
+    local KeyInput = Instance.new("TextBox")
+    local SubmitBtn = Instance.new("TextButton")
+    local GetKeyBtn = Instance.new("TextButton")
+    local UICorner = Instance.new("UICorner")
+    local UICorner2 = Instance.new("UICorner")
+    local UICorner3 = Instance.new("UICorner")
+
+    ScreenGui.Name = "RY3_KeySystem"
+    ScreenGui.Parent = CoreGui
+
+    MainFrame.Name = "MainFrame"
+    MainFrame.Parent = ScreenGui
+    MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    MainFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
+    MainFrame.Size = UDim2.new(0, 300, 0, 200)
+    MainFrame.Active = true
+    MainFrame.Draggable = true
+    UICorner.Parent = MainFrame
+
+    Title.Parent = MainFrame
+    Title.BackgroundTransparency = 1
+    Title.Size = UDim2.new(1, 0, 0, 40)
+    Title.Font = Enum.Font.SourceSansBold
+    Title.Text = "RY3 x RYOSUKE - Key System"
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.TextSize = 18
+
+    KeyInput.Parent = MainFrame
+    KeyInput.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    KeyInput.Position = UDim2.new(0.1, 0, 0.3, 0)
+    KeyInput.Size = UDim2.new(0.8, 0, 0, 35)
+    KeyInput.Font = Enum.Font.SourceSans
+    KeyInput.PlaceholderText = "ใส่ Key ที่นี่..."
+    KeyInput.Text = ""
+    KeyInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+    KeyInput.TextSize = 16
+    UICorner2.Parent = KeyInput
+
+    SubmitBtn.Parent = MainFrame
+    SubmitBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 127)
+    SubmitBtn.Position = UDim2.new(0.1, 0, 0.55, 0)
+    SubmitBtn.Size = UDim2.new(0.8, 0, 0, 35)
+    SubmitBtn.Font = Enum.Font.SourceSansBold
+    SubmitBtn.Text = "ยืนยัน Key"
+    SubmitBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SubmitBtn.TextSize = 16
+    UICorner3.Parent = SubmitBtn
+
+    GetKeyBtn.Parent = MainFrame
+    GetKeyBtn.BackgroundTransparency = 1
+    GetKeyBtn.Position = UDim2.new(0.1, 0, 0.78, 0)
+    GetKeyBtn.Size = UDim2.new(0.8, 0, 0, 25)
+    GetKeyBtn.Font = Enum.Font.SourceSans
+    GetKeyBtn.Text = "กดที่นี่เพื่อคัดลอกลิงก์รับ Key"
+    GetKeyBtn.TextColor3 = Color3.fromRGB(150, 150, 255)
+    GetKeyBtn.TextSize = 14
+
+    SubmitBtn.MouseButton1Click:Connect(function()
+        if KeyInput.Text == Config.CorrectKey then
+            ScreenGui:Destroy()
+            RunMainScript()
+        else
+            SubmitBtn.Text = "Key ไม่ถูกต้อง!"
+            SubmitBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+            SendWebhook("Failed", "Incorrect Key Entered: " .. KeyInput.Text)
+            task.wait(1.5)
+            SubmitBtn.Text = "ยืนยัน Key"
+            SubmitBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 127)
+        end
+    end)
+
+    GetKeyBtn.MouseButton1Click:Connect(function()
+        if setclipboard then
+            setclipboard(Config.KeyURL)
+            GetKeyBtn.Text = "คัดลอกลิงก์แล้ว!"
+            task.wait(1.5)
+            GetKeyBtn.Text = "กดที่นี่เพื่อคัดลอกลิงก์รับ Key"
+        end
+    end)
+end
+
+if CheckAntiTamper() and CheckAccess() then
+    CreateKeyUI()
+end
+`;
+
+        var protectedOneLiner = credit + "\n";
+        if (pass.trim() !== '') {
+            protectedOneLiner += 'if _G.Pass ~= "' + pass + '" then warn("[RY3] Wrong Password!") return end\n';
+        }
+        
+        var secBytes = [];
+        for (var i = 0; i < fullSecurityScript.length; i++) {
+            secBytes.push(fullSecurityScript.charCodeAt(i));
+        }
+        protectedOneLiner += 'local b={' + secBytes.join(',') + '};local s="";for i=1,#b do s=s..string.char(b[i]) end;loadstring(s)()';
+
+        document.getElementById('outputScript').value = protectedOneLiner;
+        document.getElementById('resultBox').style.display = 'block';
+        alert('ปกปิดสคริปต์เรียบร้อย!');
+    }
+
+    function resetAll() {
+        document.getElementById('sourceScript').value = '';
+        document.getElementById('scriptPassword').value = '';
+        document.getElementById('outputScript').value = '';
+        document.getElementById('resultBox').style.display = 'none';
+    }
+
+    function copyOutput() {
+        var output = document.getElementById('outputScript');
+        
